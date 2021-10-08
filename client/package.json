@@ -16,7 +16,7 @@
     "web-vitals": "^1.0.1"
   },
   "scripts": {
-    "start": "concurrently \"react-scripts start\" \"cd ../server/venv/scripts && python.exe ../../server.py\"",
+    "start": "concurrently \"react-scripts start\" \"python ../server/server.py\"",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
