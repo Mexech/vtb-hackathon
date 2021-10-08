@@ -1,3 +1,4 @@
 client/node_modules
 .vscode
 server/venv/
+.venv
