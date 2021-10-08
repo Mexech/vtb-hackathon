@@ -1,5 +1,5 @@
 client/node_modules
 .vscode
-server/venv/lib/site-packages
-server/venv/include
-server/venv/scripts
+server/venv/Lib
+server/venv/Include
+server/venv/pyvenv.cfg
