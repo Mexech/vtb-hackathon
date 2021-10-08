@@ -15,22 +15,9 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 
 function App() {
-  const [test, setTest] = useState();
-  useEffect(() => {
-    fetch("/test").then(
-      res => res.json()
-    ).then(
-      test => {
-        setTest(test)
-        console.log(test)
-      }
-    )
-  }, []);
   return ( 
     <div>
-      {
-        test?.shit
-      }
+      EMPTY
     </div>
    );
 }
