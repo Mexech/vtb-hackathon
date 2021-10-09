@@ -33,6 +33,7 @@ function App() {
   return(
     <div>
       <header>
+        <Table/>
       </header>
       <section>
         {user ? <FilesList/> : <SignIn/>}
