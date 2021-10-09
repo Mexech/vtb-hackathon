@@ -1,9 +1,14 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios'
 
-function SendCodeButton() {
+function SendCodeButton(props) {
 
     const sendCode = () => {
-        console.log('asd')
+        axios.post('/api',{
+            code: "def run(df):\n\treturn 'hello'",
+            filename: "Valve_Player_Data.csv",
+            uid: "McHQwYsaFKbmFPHnPOpE3oebfIt2"
+        }).then(res=>console.log(res))
     }
 
     return ( 

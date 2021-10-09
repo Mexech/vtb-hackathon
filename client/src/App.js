@@ -10,6 +10,7 @@ import 'firebase/compat/firestore';
 import UploadButton from './components/UploadButton/UploadButton'
 import Table from './components/Table/Table'
 import { initializeApp } from "firebase/app";
+import SendCodeButton from './components/SendCodeButton/SendCodeButton';
 
 const firebaseConfig = {
   apiKey: "AIzaSyCpkWpy-HyuAodtrWajEE6_4ByOq_GtpAI",
@@ -36,6 +37,7 @@ function App() {
         <Table/>
       </header>
       <section>
+        <SendCodeButton/>
         {user ? <FilesList/> : <SignIn/>}
       </section>
     </div>

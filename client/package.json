@@ -2,10 +2,10 @@
   "name": "client",
   "version": "0.1.0",
   "private": true,
-  "proxy": "http://localhost:5000",
+  "proxy": "http://localhost:5000/",
   "dependencies": {
-    "@monaco-editor/react": "^4.3.1",
     "@material-ui/icons": "^4.11.2",
+    "@monaco-editor/react": "^4.3.1",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
@@ -22,6 +22,7 @@
   },
   "scripts": {
     "start": "concurrently \"react-scripts start\" \"python ../server/server.py\"",
+    "front": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
