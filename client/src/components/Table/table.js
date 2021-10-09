@@ -82,8 +82,9 @@ function Table(props) {
     <div>
       <div className="under-header">
         <div class="dropdown" >
-          <button class="dropbtn">Фича</button>
+          <button class="dropbtn">Добавить фичу<img style={{marginLeft:"3px"}} width="30px;" src="./plus.png" /></button>
           <div class="dropdown-content">
+<<<<<<< HEAD
             <a style={isFeature === true ? { display: "none" } : { display: "block" }} onClick={handleFeature} href="#">Create feature</a>
             <form class="forms" style={isFeature === true ? { display: "flex" } : { display: "none" }}>
               <input id="input-feature" onKeyUp={handleCustomFeature}/>
@@ -91,9 +92,18 @@ function Table(props) {
             </form>
 
             <a style={isFeature === false ? { display: "none" } : { display: "block" }} onClick={handleDataSet} href="#">Add dataset</a>
+=======
+            <a style={isFeature === true ? { display: "none" } : { display: "block", borderRadius: "0" }} onClick={() => { handleFeature(); }} href="#">Create feature</a>
+            <form class="forms" style={isFeature === true ? { display: "flex" } : { display: "none" }}>
+              <input id="input-feature" />
+              <input type="submit" value="sub" style={{width:"40px"}}/>
+            </form>
+
+            <a style={isFeature === false ? { display: "none" } : { display: "block", borderRadius: "0 0 18px 18px" }} onClick={() => { handleDataSet(); }} href="#">Add dataset</a>
+>>>>>>> tabel_view
             <form class="forms" style={isFeature === false ? { display: "flex" } : { display: "none" }}>
               <input id="input-data-set" />
-              <input type="submit" value="sub" />
+              <input type="submit" value="sub" style={{width:"40px", borderRadius:"0 0 18px 0"}}/>
             </form>
           </div>
         </div>

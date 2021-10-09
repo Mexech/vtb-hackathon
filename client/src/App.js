@@ -10,7 +10,7 @@ import 'firebase/compat/auth';
 import 'firebase/compat/firestore';
 
 import UploadButton from './components/UploadButton/UploadButton'
-import Table from './components/Table/Table'
+import Table from './components/Table/table'
 import Catalog from './components/Catalog/Catalog'
 import { initializeApp } from "firebase/app";
 
