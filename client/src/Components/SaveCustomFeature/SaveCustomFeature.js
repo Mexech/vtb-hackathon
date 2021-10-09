@@ -5,7 +5,7 @@ function SendCodeButton(props) {
 
     const save = () => {
         axios.get(`/api/savecustomfeature/${props.uid}/${props.filename}`).then((res) => {
-            alert('close editor')
+            props.setCustomFeature("")
         })
     }
 

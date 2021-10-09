@@ -22,7 +22,6 @@ const app = firebase.initializeApp(firebaseConfig);
 function Table(props) {
   const [columns, setColumns] = useState([]);
   const [data, setData] = useState([]);
-  // const path = 'McHQwYsaFKbmFPHnPOpE3oebfIt2/Valve_Player_Data.csv';
   const options = [
     'one', 'two', 'three'
   ];
@@ -30,6 +29,7 @@ function Table(props) {
 
   const [isEditor, setEditor] = useState(false);
   const [isFeature, setFeature] = useState(null);
+  const [customFeature, setCustomFeature] = useState("");
 
   const styles = {
     rowStyle: {
@@ -55,7 +55,6 @@ function Table(props) {
   useEffect(async () => {
     axios.get(`/api/getdataset/${props.uid}/${props.filename}`)
       .then(res => {
-        console.log(res.data[1642])
         setColumns(res.data.columns)
         setData(res.data.data)
       })
@@ -63,7 +62,7 @@ function Table(props) {
 
   const [open, setOpen] = React.useState(false);
 
-  function handleFeature() {
+  function handleFeature(ev) {
     setFeature(true);
     document.getElementById("input-feature").focus()
   }
@@ -73,19 +72,25 @@ function Table(props) {
     document.getElementById("input-data-set").focus()
   }
 
+  const handleCustomFeature = (ev) => {
+    if (ev.key === "Enter") {
+      setCustomFeature(ev.target.value)
+    }
+  }
+
   return (
     <div>
       <div className="under-header">
         <div class="dropdown" >
           <button class="dropbtn">Фича</button>
           <div class="dropdown-content">
-            <a style={isFeature === true ? { display: "none" } : { display: "block" }} onClick={() => { handleFeature(); }} href="#">Create feature</a>
+            <a style={isFeature === true ? { display: "none" } : { display: "block" }} onClick={handleFeature} href="#">Create feature</a>
             <form class="forms" style={isFeature === true ? { display: "flex" } : { display: "none" }}>
-              <input id="input-feature" />
-              <input type="submit" value="sub" onClick={() => setEditor(true)} />
+              <input id="input-feature" onKeyUp={handleCustomFeature}/>
+              {/* <input type="submit" value="sub" onClick={setEditor(true)} /> */}
             </form>
 
-            <a style={isFeature === false ? { display: "none" } : { display: "block" }} onClick={() => { handleDataSet(); }} href="#">Add dataset</a>
+            <a style={isFeature === false ? { display: "none" } : { display: "block" }} onClick={handleDataSet} href="#">Add dataset</a>
             <form class="forms" style={isFeature === false ? { display: "flex" } : { display: "none" }}>
               <input id="input-data-set" />
               <input type="submit" value="sub" />
@@ -99,19 +104,6 @@ function Table(props) {
             className="table"
             columns={columns}
             data={data}
-            actions={[
-              isEditor ? {
-                icon: 'close',
-                tooltip: 'Close editor',
-                isFreeAction: true,
-                onClick: (event) => setEditor(false)
-              } :
-                {
-                  icon: 'edit',
-                  tooltip: 'Open editor',
-                  isFreeAction: true,
-                  onClick: (event) => setEditor(true)
-                }]}
             title={props.filename}
             options={{
               maxBodyHeight: "75vh",
@@ -125,7 +117,7 @@ function Table(props) {
           />
         </div>
         {
-          isEditor ?
+          customFeature ?
             <div style={{ width: "30%" }}>
               <CustomEditor
                 className="editor"
@@ -133,10 +125,12 @@ function Table(props) {
                 filename={props.filename}
                 setColumns={setColumns}
                 setData={setData}
+                customFeature={customFeature}
+                setCustomFeature={setCustomFeature}
               />
             </div>
             :
-            ""
+            null
         }
       </div>
     </div>
