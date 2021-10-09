@@ -3,12 +3,15 @@ import React, { useState, useEffect } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { useCollectionData } from 'react-firebase-hooks/firestore'
 
+import "./App.css"
+
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
 import 'firebase/compat/firestore';
 
 import UploadButton from './components/UploadButton/UploadButton'
-import Table from './components/Table/table'
+import Table from './components/Table/Table'
+import Catalog from './components/Catalog/Catalog'
 import { initializeApp } from "firebase/app";
 
 const firebaseConfig = {
@@ -30,19 +33,26 @@ const storage = firebase.storage()
 function App() {
   const [user] = useAuthState(auth)
   const [code, setCode] = useState("");
-  const [filename, setFilename] = useState("Valve_Player_Data.csv");
+  const [filename, setFilename] = useState("");
 
-  const handleCallback = (value) => {
-    setFilename(value)
+  const back = () => {
+    setFilename("")
   }
   
   return(
     <div>
       <header>
-        <Table uid={auth?.currentUser?.uid} filename={filename}/>
+        <button onClick={back}>BACK</button>
       </header>
       <section>
-        {user ? <FilesList/> : <SignIn/>}
+        {!user
+          ? <SignIn/>
+          : [
+            filename
+              ? <Table uid={auth.currentUser.uid} filename={filename}/>
+              : <FilesList setFilename={setFilename} />
+          ]
+        }
       </section>
     </div>
   );
@@ -59,17 +69,38 @@ function SignIn() {
   );
 }
 
-function FilesList() {
+function FilesList(props) {
+  const storage = firebase.storage()
+  const storageRef = storage.ref(auth.currentUser.uid)
+
+  const [files, setFiles] = useState([])
+
+  const listFiles = () => {
+    storageRef.listAll()
+      .then(res => {
+          console.log(res)
+          setFiles(res.items.map(f => f.name))
+      })
+      .catch(err => {
+        alert(err.message);
+      })
+  }
+
+  useEffect(() => {listFiles()}, [])
 
   return (  
-    <div>
-      {
-        auth.currentUser && ( 
-          <button onClick={() => auth.signOut()}>Sign Out</button>
-        )
-      }
-      <UploadButton userId={auth.currentUser.uid}/>
-     { auth.currentUser.email}
+    <div className = "main">
+      <div style = {{backgroundColor: "#326DC6"}}>
+        {
+          auth.currentUser && ( 
+          <button onClick={() => {
+            auth.signOut()
+          }}>Sign Out</button>
+          )
+        }
+        <UploadButton userId={auth.currentUser.uid} fileList={files} setFileList={listFiles} storageRef={storageRef}/>
+      </div>
+      <Catalog setFilename={props.setFilename} fileList={files} setFileList={listFiles} usr={auth.currentUser} storageRef={storageRef}/>
     </div>
   );
 }

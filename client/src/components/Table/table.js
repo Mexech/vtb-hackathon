@@ -21,24 +21,16 @@ const app = firebase.initializeApp(firebaseConfig);
 function Table(props) {
   const [columns, setColumns] = useState([]);
   const [data, setData] = useState([]);
-  const path = 'McHQwYsaFKbmFPHnPOpE3oebfIt2/Valve_Player_Data.csv';
+  // const path = 'McHQwYsaFKbmFPHnPOpE3oebfIt2/Valve_Player_Data.csv';
   const [isEditor, setEditor] = useState(false);
 
   useEffect(async () => {
-    fetch(`/api/getdataset/${path}`, {
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
-      }
-    })
-      .then(res => res.json())
+    axios.get(`/api/getdataset/${props.uid}/${props.filename}`)
       .then(res => {
-        setColumns(res.columns)
-        setData(res.data)
+        console.log(res.data[1642])
+        setColumns(res.data.columns)
+        setData(res.data.data)
       })
-
-    // const storageRef = firebase.storage().ref(path)
-    // console.log(await storageRef.getDownloadURL())
   }, []);
 
   return (
@@ -62,7 +54,7 @@ function Table(props) {
                   isFreeAction: true,
                   onClick: (event) => setEditor(true)
                 }]}
-            title="Demo Title"
+            title={props.filename}
             options={{
               maxBodyHeight: "75vh",
               selection: false,

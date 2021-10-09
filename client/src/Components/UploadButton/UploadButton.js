@@ -21,24 +21,8 @@ const app = firebase.initializeApp(firebaseConfig);
 
 function UploadButton(props) {
     const ref = useRef(null)
-    const storage = firebase.storage()
-    const storageRef = storage.ref(props.userId)
-    const initialList = []
-    const [files, setFiles] = useState([])
-    const [fileRef, setFileRef] = useState({});
 
-    const listItem = () => {
-        storageRef.listAll()
-          .then(res => {
-              console.log(res)
-              setFiles(res.items.map(f => f.name))
-          })
-          .catch(err => {
-            alert(err.message);
-          })
-      }
-
-    useEffect(() => {listItem()}, [])
+    useEffect(() => {props.setFileList()}, [])
 
     const handleClick = () => {
         if (ref) {
@@ -52,32 +36,26 @@ function UploadButton(props) {
         const uploadedFile = event?.target.files[0];
         if (!uploadedFile) return;
         try {
-            let a = await storageRef.child(uploadedFile.name).put(uploadedFile);
-            console.log(a)
+            let a = await props.storageRef.child(uploadedFile.name).put(uploadedFile);
             fetch(`/api/getmetadata/${a.ref.fullPath}`)
                 .then(res => res.json())
                 .then(async (data) => {
                     console.log(data)
-                    await storageRef.child(uploadedFile.name).updateMetadata({customMetadata: data})
+                    await props.storageRef.child(uploadedFile.name).updateMetadata({customMetadata: data})
                 })
 
             alert("Successfully uploaded file!");
         } catch (error) {
             console.log("error", error);
         }
-        listItem()
+        props.setFileList()
     };
 
     return (  
         <div>
-            <SearchBar/>
+            {/* <SearchBar/> */}
             <button className="upload-button" onClick={() => handleClick()}>Upload file</button>
             <input type="file" accept=".csv" hidden ref={ref} onChange={handleUpload}/>
-            {
-                files.map((f, index) => (
-                    <li key={index}>{f}</li>
-                ))
-            }
         </div>
     );
 }
