@@ -10,7 +10,6 @@ from flask_restful import Resource, Api
 import os, json
 from multiprocessing import Process, Queue
 from io import StringIO
-import pandas as pd
 
 
 cred = credentials.Certificate(Path(__file__).parent / "key/vtb-hackathon-firebase-adminsdk-mh10o-0e7b464d7d.json")
@@ -44,7 +43,7 @@ class Feature(Resource):
         df = pd.read_csv(f, sep=",")
         return df
 
-    def __execute_code(self, code: str, data_set: DataFrame):
+    def __execute_code(self, code: str, data_set: pd.DataFrame):
 
         # Put code from frontend into executable python file
         with open('runner.py', mode='w') as f:
