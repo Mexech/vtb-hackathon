@@ -1,3 +1,35 @@
-.abobus{
-    background-color: red;
+html, body{
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+.menu{
+    width: 100vw;
+    height: 100vh;
+    display: grid;
+    grid-template-rows: 1fr 10fr;
+}
+
+.header{
+    background-color: #326DC6;
+}
+
+.content{
+    display: grid;
+    background-color: #172030;
+    grid-template-columns: 1fr;
+}
+
+.wrapper{
+    overflow-y: scroll;
+    flex-basis: 1vh;
+    flex-grow: 1;
+    display: flex;
+    margin: 2%;
+    border-radius: 12px;
+    flex-direction: column;
+    background-color: #1B2B46;
+    position: relative;
+
 }

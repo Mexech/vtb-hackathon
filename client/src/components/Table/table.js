@@ -15,32 +15,67 @@ const firebaseConfig = {
 
 const app = firebase.initializeApp(firebaseConfig);
 
-function Table() {
-  const [columns, setColumns] = useState([]);
-  const [data, setData] = useState([]);
-  const path = 'McHQwYsaFKbmFPHnPOpE3oebfIt2/Valve_Player_Data.csv'
+function Table(props) {
+  const columns = [
+    { title: 'Имя файла', field: 'fileName' },
+    { title: 'Пользователь', field: 'userName' },
+    { title: 'Последнее обновление', field: 'lastUpdate'},
+    { title: 'Размер', field: 'size'}
+  ]
 
-  useEffect(async () => {
-    fetch(`/api/getdataset/${path}`)
-      .then(res => res.json())
-      .then(res => {
-        setColumns(res.columns)
-        setData(res.data)
-        // let array = JSON.parse(data.data)
-        // console.log(array)
-      })
-    // const storageRef = firebase.storage().ref(path)
-    // console.log(await storageRef.getDownloadURL())
-  }, []);
+  useEffect(() =>{props.setFileList()}, [])
+
+  const handleDelete = async (rowData) => {
+    await props.storageRef.child(rowData.fileName).delete().then(() => {
+      props.setFileList()
+    })
+  }
+
+  const actions = [{
+    icon: "delete",
+    tooltip: "deleteFile",
+    title: "aaa",
+    onClick: (event, rowData) => handleDelete(rowData)
+  }]
+
+  const options = {
+    headerStyle: {
+      fontSize: "10px"
+    },
+    showTitle: false,
+    toolbar: false,
+    search: false,
+    paging: false,
+    sorting: false,
+    headerStyle: {
+      fontSize: "10px",
+      position: "sticky",
+      top: "0"
+    },
+    maxBodyHeight: "300px"
+  }
+
+  const localization= {
+    header: {
+      actions: ""
+    }
+  }
 
   return (
-    <div>
+    <div style = {{margin: "2%"}}>
       <MaterialTable
           columns={columns}
-          data={data}
-          title="Demo Title"
+          actions = {actions}
+          options={options}
+          localization = {localization}
+          style = {{fontSize: "10px"}}
+
+          data = {props.fileList.map((fName) => ({"fileName": fName,
+                                                  "userName": props.usr.email,
+                                                  "lastUpdate": "---",
+                                                  "size": "---"}))}
         />
-    </div>
+      </div>
   );
 }
 

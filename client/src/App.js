@@ -3,6 +3,8 @@ import React, { useState, useEffect } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { useCollectionData } from 'react-firebase-hooks/firestore'
 
+import "./App.css"
+
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
 import 'firebase/compat/firestore';
@@ -53,16 +55,35 @@ function SignIn() {
 }
 
 function FilesList() {
+  const storage = firebase.storage()
+  const storageRef = storage.ref(auth.currentUser.uid)
+
+  const [files, setFiles] = useState([])
+
+  const listFiles = () => {
+    storageRef.listAll()
+      .then(res => {
+          console.log(res)
+          setFiles(res.items.map(f => f.name))
+      })
+      .catch(err => {
+        alert(err.message);
+      })
+  }
+
+  useEffect(() => {listFiles()}, [])
 
   return (  
     <div>
-      {
-        auth.currentUser && ( 
+      <div style = {{backgroundColor: "#326DC6"}}>
+        {
+          auth.currentUser && ( 
           <button onClick={() => auth.signOut()}>Sign Out</button>
-        )
-      }
-      <UploadButton userId={auth.currentUser.uid}/>
-     { auth.currentUser.email}
+          )
+        }
+        <UploadButton userId={auth.currentUser.uid} fileList={files} setFileList={listFiles} storageRef={storageRef}/>
+      </div>
+      <Table fileList = {files} setFileList = {listFiles} usr = {auth.currentUser} storageRef={storageRef}/>
     </div>
   );
 }
