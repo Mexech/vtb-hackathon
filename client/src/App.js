@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-<<<<<<< HEAD
 
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { useCollectionData } from 'react-firebase-hooks/firestore'
@@ -9,10 +8,8 @@ import 'firebase/compat/auth';
 import 'firebase/compat/firestore';
 
 import UploadButton from './Components/UploadButton/UploadButton'
-=======
-import Table from './components/Table/Table'
+import Table from './Components/Table/Table'
 import { initializeApp } from "firebase/app";
->>>>>>> table
 
 const firebaseConfig = {
   apiKey: "AIzaSyCpkWpy-HyuAodtrWajEE6_4ByOq_GtpAI",
@@ -31,13 +28,11 @@ const firestore = firebase.firestore()
 const storage = firebase.storage()
 
 function App() {
-<<<<<<< HEAD
   const [user] = useAuthState(auth)
 
   return(
     <div>
       <header>
-
       </header>
       <section>
         {user ? <FilesList/> : <SignIn/>}
@@ -68,11 +63,6 @@ function FilesList() {
       }
       <UploadButton userId={auth.currentUser.uid}/>
      { auth.currentUser.email}
-=======
-  return ( 
-    <div>
-      <Table />
->>>>>>> table
     </div>
   );
 }

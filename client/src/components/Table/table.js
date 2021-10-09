@@ -16,8 +16,8 @@ const firebaseConfig = {
 const app = firebase.initializeApp(firebaseConfig);
 
 function Table() {
-  const [columns, setColumns] = useState({});
-  const [data, setData] = useState({});
+  const [columns, setColumns] = useState([]);
+  const [data, setData] = useState([]);
   const path = 'McHQwYsaFKbmFPHnPOpE3oebfIt2/Valve_Player_Data.csv'
 
   useEffect(async () => {
