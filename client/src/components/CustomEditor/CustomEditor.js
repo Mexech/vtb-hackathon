@@ -23,7 +23,6 @@ function CustomEditor(props) {
   return (
     <div>
       <Editor
-        height="85vh"
         defaultLanguage="python"
         defaultValue={beforeUserCode + inbetweenMessage + afterUserCode}
         theme="vs-dark"

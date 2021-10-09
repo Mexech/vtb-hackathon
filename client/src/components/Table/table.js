@@ -4,7 +4,8 @@ import 'firebase/compat/storage';
 import MaterialTable from 'material-table';
 import CustomEditor from '../CustomEditor/CustomEditor';
 import './style.css'
-import axios from 'axios';
+import axios from 'axios'
+
 
 const firebaseConfig = {
   apiKey: "AIzaSyCpkWpy-HyuAodtrWajEE6_4ByOq_GtpAI",
@@ -22,7 +23,34 @@ function Table(props) {
   const [columns, setColumns] = useState([]);
   const [data, setData] = useState([]);
   // const path = 'McHQwYsaFKbmFPHnPOpE3oebfIt2/Valve_Player_Data.csv';
+  const options = [
+    'one', 'two', 'three'
+  ];
+  const defaultOption = options[0];
+
   const [isEditor, setEditor] = useState(false);
+  const [isFeature, setFeature] = useState(null);
+
+  const styles = {
+    rowStyle: {
+      backgroundColor: "#1B2B46",
+      color: "#FFF",
+      fontFamily: "Roboto",
+      fontStyle: "normal",
+      fontWeight: "normal",
+      fontSize: "18px",
+    },
+    headerStyle: {
+      backgroundColor: "#1B2B46",
+      color: "#FFF"
+    },
+    searchFieldStyle:{
+      backgroundColor:"#C2D4EF",
+      borderRadius:"30px",
+      padding: "5px 0 5px 20px",
+      color: "#858585"
+    }
+  }
 
   useEffect(async () => {
     axios.get(`/api/getdataset/${props.uid}/${props.filename}`)
@@ -33,10 +61,39 @@ function Table(props) {
       })
   }, []);
 
+  const [open, setOpen] = React.useState(false);
+
+  function handleFeature() {
+    setFeature(true);
+    document.getElementById("input-feature").focus()
+  }
+
+  function handleDataSet() {
+    setFeature(false);
+    document.getElementById("input-data-set").focus()
+  }
+
   return (
     <div>
+      <div className="under-header"></div>
       <div className="wrapper">
         <div style={isEditor ? { width: "69%", marginRight: "1%" } : { width: "100%" }}>
+          <div class="dropdown" style={isEditor ? { marginLeft: "45%" } : { marginLeft: "75%" }}>
+            <button class="dropbtn">Фича</button>
+            <div class="dropdown-content">
+              <a style={isFeature === true ? { display: "none" } : { display: "block" }} onClick={() => { handleFeature(); }} href="#">Create feature</a>
+              <form class="forms" style={isFeature === true ? { display: "flex" } : { display: "none" }}>
+                <input id="input-feature" />
+                <input type="submit" value="sub" onClick={() => setEditor(true)} />
+              </form>
+
+              <a style={isFeature === false ? { display: "none" } : { display: "block" }} onClick={() => { handleDataSet(); }} href="#">Add dataset</a>
+              <form class="forms" style={isFeature === false ? { display: "flex" } : { display: "none" }}>
+                <input id="input-data-set" />
+                <input type="submit" value="sub" />
+              </form>
+            </div>
+          </div>
           <MaterialTable
             className="table"
             columns={columns}
@@ -58,8 +115,9 @@ function Table(props) {
             options={{
               maxBodyHeight: "75vh",
               selection: false,
-              // rowStyle:{backgroundColor:"red"}
-              // headerStyle:{},
+              rowStyle: { ...styles.rowStyle },
+              headerStyle: { ...styles.headerStyle },
+              searchFieldStyle: { ...styles.searchFieldStyle },
               paging: false
 
             }}
