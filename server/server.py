@@ -9,6 +9,7 @@ from io import StringIO
 import pandas as pd
 from pandas import DataFrame
 import importlib
+import runner
 
 cred = credentials.Certificate(Path(__file__).parent / "key/vtb-hackathon-firebase-adminsdk-mh10o-0e7b464d7d.json")
 firebase_admin.initialize_app(cred, {
@@ -47,7 +48,7 @@ class Feature(Resource):
             f.writelines(code)
         f.close()
 
-        import runner
+        # runner = importlib.import_module('runner')
 
         # Generates Queue object to manage data set and results of inner code
         queue = Queue()
