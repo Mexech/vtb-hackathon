@@ -1,35 +1,39 @@
 import React, { useState, useEffect } from 'react';
 
 import Editor, { useMonaco } from "@monaco-editor/react";
+import SendCodeButton from '../SendCodeButton/SendCodeButton';
+import SaveCustomFeature from '../SaveCustomFeature/SaveCustomFeature';
+import DiscardCustomFeature from '../DiscardCustomFeature/DiscardCustomFeature';
 
-function CustomEditor() {
+function CustomEditor(props) {
   const monaco = useMonaco();
-  const beforeUserCode = "import pandas as pd\n"
-  const inbetweenMessage = "# Здесь можете ввести нужные преобразования"
-  const afterUserCode = "\nreturn df['feature']"
+  const beforeUserCode = "import pandas as pd\ndef run(df):\n\t"
+  // const inbetweenMessage = "# Здесь можете ввести нужные преобразования"
+  const inbetweenMessage = "df['Custom']=df['Gain']\n"
+  const afterUserCode = "\n\treturn df['Custom']"
+  const [code, setCode] = useState(beforeUserCode + inbetweenMessage + afterUserCode);
 
-  useEffect(() => {
-    if (monaco) {
-      console.log("here is the monaco instance:", monaco.editor);
-    }
-  }, [monaco]);
   function handleEditorChange(value, event) {
     if (!(value.startsWith(beforeUserCode) && value.endsWith(afterUserCode))) {
       monaco.editor.getModels()[0].undo()
+    } else {
+      setCode(value)
     }
-    console.log("here is the current model value:", value);
   }
-  return ( 
+  return (
     <div>
       <Editor
-        height="100vh"
+        height="85vh"
         defaultLanguage="python"
         defaultValue={beforeUserCode + inbetweenMessage + afterUserCode}
         theme="vs-dark"
         onChange={handleEditorChange}
       />
+      <SendCodeButton setColumns={props.setColumns} setData={props.setData} filename={props.filename} uid={props.uid} code={code} />
+      <SaveCustomFeature filename={props.filename} uid={props.uid}/>
+      <DiscardCustomFeature setColumns={props.setColumns} setData={props.setData} filename={props.filename} uid={props.uid}/>
     </div>
-   );
+  );
 }
 
 export default CustomEditor;

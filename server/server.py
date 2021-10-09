@@ -6,12 +6,13 @@ import numpy as np
 from io import StringIO
 from firebase_admin import credentials, storage
 from pathlib import Path
-from flask_restful import Resource, Api
+from flask_restful import Resource, Api, reqparse
 import os, json
-from multiprocessing import Process, Queue
+# from multiprocessing import Process, Queue
+from queue import Queue
 from io import StringIO
-import pandas as pd
-
+import importlib
+import runner
 
 cred = credentials.Certificate(Path(__file__).parent / "key/vtb-hackathon-firebase-adminsdk-mh10o-0e7b464d7d.json")
 firebase_admin.initialize_app(cred, {
@@ -20,20 +21,27 @@ firebase_admin.initialize_app(cred, {
 
 app = Flask(__name__)
 api = Api(app)
+current_df = None
+
+parser = reqparse.RequestParser()
+parser.add_argument('uid')
+parser.add_argument('code')
+parser.add_argument('filename')
 
 
 class Feature(Resource):
-    def get(self):
-        data = request.get_json(force=True)
-        code = data["data"]["code"]
+    def post(self):
+        global current_df
+        data = parser.parse_args()
+        code = data["code"]
+        filename = data["filename"]
         uid = data["uid"]
-        filename = data["data"]["filename"]
-
-        d_frame = self.__get_df(uid, filename)
-
-        result = self.__execute_code(code, d_frame)
-
-        return result.to_json()
+        df = self.__get_df(uid, filename)
+        result = self.__execute_code(code, df)
+        df.append(result)
+        current_df = df
+        data = df.head(100).to_dict("records")
+        return {"columns": [{'title': c, 'field': c} for c in df.head().columns], "data": data}
 
     def __get_df(self, uid: str, filename: str):
         # Getting data set from url
@@ -44,26 +52,14 @@ class Feature(Resource):
         df = pd.read_csv(f, sep=",")
         return df
 
-    def __execute_code(self, code: str, data_set: DataFrame):
+    def __execute_code(self, code: str, df: pd.DataFrame):
 
         # Put code from frontend into executable python file
         with open('runner.py', mode='w') as f:
             f.writelines(code)
+        importlib.reload(runner)
 
-
-        # Generates Queue object to manage data set and results of inner code
-        queue = Queue()
-        queue.put(data_set)
-
-        # Making process for execution of inner code file
-        import runner
-        # p = Process(target=runner.run, args=(queue,))
-        # p.start()
-        # p.join()
-
-        runner.run(queue)
-
-        return queue.get()
+        return runner.run(df)
 
 
 api.add_resource(Feature, '/api')
@@ -86,8 +82,23 @@ def get_dataset(uid, filename):
     raw_csv = storage.bucket().blob(uid+'/'+filename).download_as_text()
     f = StringIO(raw_csv)
     df = pd.read_csv(f, sep=",")
-    data = df.head().to_dict("records")
+    data = df.head(100).to_dict("records")
     return {"columns": [{'title': c, 'field': c} for c in df.head().columns], "data": data}
+
+
+@app.route("/api/savecustomfeature/<uid>/<filename>")
+def save_custom_feature(uid, filename):
+    global current_df
+    storage.bucket().blob(uid + '/' + filename).upload_from_string(current_df.to_csv(index=False))
+    return json.dumps({'success':True}), 200, {'ContentType':'application/json'}
+
+
+@app.route("/api/discardcustomfeature/<uid>/<filename>")
+def discard_custom_feature(uid, filename):
+    global current_df
+    current_df = None
+    return get_dataset(uid, filename)
+
 
 
 if __name__ == "__main__":
