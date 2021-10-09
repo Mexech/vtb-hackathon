@@ -8,7 +8,7 @@ import 'firebase/compat/auth';
 import 'firebase/compat/firestore';
 
 import UploadButton from './components/UploadButton/UploadButton'
-import Table from './components/Table/Table'
+import Table from './components/Table/table'
 import { initializeApp } from "firebase/app";
 
 const firebaseConfig = {
@@ -37,6 +37,7 @@ function App() {
       <section>
         {user ? <FilesList/> : <SignIn/>}
       </section>
+      <Table/>
     </div>
   );
 }
