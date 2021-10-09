@@ -42,7 +42,7 @@ function App() {
   return(
     <div>
       <header>
-        <button onClick={back}>BACK</button>
+        {filename ? <button onClick={back}>BACK</button> : null}
       </header>
       <section>
         {!user
