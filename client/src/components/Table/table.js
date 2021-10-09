@@ -3,6 +3,8 @@ import firebase from 'firebase/compat/app';
 import 'firebase/compat/storage';
 import MaterialTable from 'material-table'
 
+import Delete from "@material-ui/icons/Delete"
+
 const firebaseConfig = {
   apiKey: "AIzaSyCpkWpy-HyuAodtrWajEE6_4ByOq_GtpAI",
   authDomain: "vtb-hackathon.firebaseapp.com",
@@ -31,16 +33,22 @@ function Table(props) {
     })
   }
 
+  
+
   const actions = [{
-    icon: "delete",
+    icon: () => (
+      <Delete style = {{color: "white"}}/>
+    ),
     tooltip: "deleteFile",
     title: "aaa",
     onClick: (event, rowData) => handleDelete(rowData)
   }]
 
   const options = {
-    headerStyle: {
-      fontSize: "10px"
+    rowStyle: {
+      backgroundColor: "#1B2B46",
+      color: "white",
+      border: "none"
     },
     showTitle: false,
     toolbar: false,
@@ -50,6 +58,8 @@ function Table(props) {
     headerStyle: {
       fontSize: "10px",
       position: "sticky",
+      backgroundColor: "#1B2B46",
+      color: "white",
       top: "0"
     },
     maxBodyHeight: "300px"
@@ -64,6 +74,7 @@ function Table(props) {
   return (
     <div style = {{margin: "2%"}}>
       <MaterialTable
+        style = {{backgroundColor: "#1B2B46"}}
           columns={columns}
           actions = {actions}
           options={options}

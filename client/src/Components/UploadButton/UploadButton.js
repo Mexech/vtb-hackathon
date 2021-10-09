@@ -37,7 +37,7 @@ function UploadButton(props) {
         if (!uploadedFile) return;
         try {
             let a = await props.storageRef.child(uploadedFile.name).put(uploadedFile);
-            console.log(a)
+            console.log("here", a)
             fetch(`/api/getmetadata/${a.ref.fullPath}`)
                 .then(res => res.json())
                 .then(async (data) => {
@@ -54,7 +54,7 @@ function UploadButton(props) {
 
     return (  
         <div>
-            <SearchBar/>
+            {/* <SearchBar/> */}
             <button className="upload-button" onClick={() => handleClick()}>Upload file</button>
             <input type="file" accept=".csv" hidden ref={ref} onChange={handleUpload}/>
         </div>

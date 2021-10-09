@@ -74,11 +74,13 @@ function FilesList() {
   useEffect(() => {listFiles()}, [])
 
   return (  
-    <div>
+    <div className = "main">
       <div style = {{backgroundColor: "#326DC6"}}>
         {
           auth.currentUser && ( 
-          <button onClick={() => auth.signOut()}>Sign Out</button>
+          <button onClick={() => {
+            auth.signOut()
+          }}>Sign Out</button>
           )
         }
         <UploadButton userId={auth.currentUser.uid} fileList={files} setFileList={listFiles} storageRef={storageRef}/>

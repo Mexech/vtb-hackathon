@@ -33,3 +33,9 @@ html, body{
     position: relative;
 
 }
+
+.main{
+    width: 100vw;
+    height: 100vh;
+    background-color:  #172030;
+}
