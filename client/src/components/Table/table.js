@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
-import { initializeApp } from "firebase/app";
-import { getStorage, ref, getDownloadURL } from "firebase/storage";
-
+import React, { useState, useEffect } from 'react';
+import firebase from 'firebase/compat/app';
+import 'firebase/compat/storage';
+import MaterialTable from 'material-table'
 
 const firebaseConfig = {
   apiKey: "AIzaSyCpkWpy-HyuAodtrWajEE6_4ByOq_GtpAI",
@@ -13,67 +13,33 @@ const firebaseConfig = {
   measurementId: "G-H7506F30MH"
 };
 
-const app = initializeApp(firebaseConfig);
-const storage = getStorage();
+const app = firebase.initializeApp(firebaseConfig);
 
 function Table() {
-  const [dataset, setDataset] = useState();
+  const [columns, setColumns] = useState({});
+  const [data, setData] = useState({});
+  const path = 'McHQwYsaFKbmFPHnPOpE3oebfIt2/Valve_Player_Data.csv'
 
-  function getFile(path) {
-    getDownloadURL(ref(storage, path))
-      .then((url) => {
-        fetch(`/getjson?url=${encodeURIComponent(url)}`).then(
-          res => res.json()
-        ).then(
-          data => {
-            setDataset(Object.values(data["data"]));
-            console.log((dataset))
-          }
-        )
+  useEffect(async () => {
+    fetch(`/api/getdataset/${path}`)
+      .then(res => res.json())
+      .then(res => {
+        setColumns(res.columns)
+        setData(res.data)
+        // let array = JSON.parse(data.data)
+        // console.log(array)
       })
-      .catch((error) => {
-      });
-  }
-
-  // function getObjectOfArray() {
-  //   let newObject = new Array(Object.values(dataset[0]).length);
-  //   for (let col = 0; col < Object.values(dataset[0]).length; col++) {
-  //     for (let row = 0; row < dataset.length; row++) {
-  //       newObject[col] = {
-          
-  //       }
-  //     }
-  //   }
-  // }
+    // const storageRef = firebase.storage().ref(path)
+    // console.log(await storageRef.getDownloadURL())
+  }, []);
 
   return (
     <div>
-      <button onClick={() => getFile("Valve_Player_Data.csv")}>test</button>
-      <button>test2</button>
-      <table>
-        <tr>
-          <th>Col1</th>
-          <th>Col2</th>
-          <th>Col3</th>
-          <th>Col4</th>
-          <th>Col5</th>
-        </tr>
-        {
-          dataset && dataset.length > 0 ?
-            dataset.map((item, index) => {
-              return (
-                <tr>
-                  <td key={index}>{item[0]}</td>
-                  <td key={index}>{item[1]}</td>
-                  <td key={index}>{item[2]}</td>
-                  <td key={index}>{item[3]}</td>
-                  <td key={index}>{item[4]}</td>
-                </tr>);
-            }
-            ) :
-            "Loading"
-        }
-      </table>
+      <MaterialTable
+          columns={columns}
+          data={data}
+          title="Demo Title"
+        />
     </div>
   );
 }

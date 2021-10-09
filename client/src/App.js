@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import Table from './components/Table/table'
+import Table from './components/Table/Table'
 import { initializeApp } from "firebase/app";
 
 const firebaseConfig = {
