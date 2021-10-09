@@ -47,15 +47,10 @@ header{
 .dropdown {
   position: relative;
   display: inline-block;
-<<<<<<< HEAD
-  /* z-index: 9999; */
-  margin-left: 70%;
-=======
   margin-left: 80%;
   box-shadow: 0px 0px 15px rgba(235, 243, 254, 0.5);
   border-radius: 18px 18px 0 0; 
   vertical-align: bottom;
->>>>>>> tabel_view
 }
 
 .dropdown-content {
