@@ -21,16 +21,21 @@ function CustomEditor(props) {
     }
   }
   return (
-    <div>
-      <Editor
-        defaultLanguage="python"
-        defaultValue={beforeUserCode + inbetweenMessage + afterUserCode}
-        theme="vs-dark"
-        onChange={handleEditorChange}
-      />
-      <SendCodeButton setColumns={props.setColumns} setData={props.setData} filename={props.filename} uid={props.uid} code={code} />
-      <SaveCustomFeature filename={props.filename} uid={props.uid}/>
-      <DiscardCustomFeature setColumns={props.setColumns} setData={props.setData} filename={props.filename} uid={props.uid}/>
+    <div style={{ display:"flex", flexDirection:"column"}}>
+      <div>
+        <Editor
+          height="80vh"
+          defaultLanguage="python"
+          defaultValue={beforeUserCode + inbetweenMessage + afterUserCode}
+          theme="vs-dark"
+          onChange={handleEditorChange}
+        />
+      </div>
+      <div style={{ display: "flex", flexDirection: "row" }}>
+        <SendCodeButton setColumns={props.setColumns} setData={props.setData} filename={props.filename} uid={props.uid} code={code} />
+        <SaveCustomFeature filename={props.filename} uid={props.uid} />
+        <DiscardCustomFeature setColumns={props.setColumns} setData={props.setData} filename={props.filename} uid={props.uid} />
+      </div>
     </div>
   );
 }

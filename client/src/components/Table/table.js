@@ -44,9 +44,9 @@ function Table(props) {
       backgroundColor: "#1B2B46",
       color: "#FFF"
     },
-    searchFieldStyle:{
-      backgroundColor:"#C2D4EF",
-      borderRadius:"30px",
+    searchFieldStyle: {
+      backgroundColor: "#C2D4EF",
+      borderRadius: "30px",
       padding: "5px 0 5px 20px",
       color: "#858585"
     }
@@ -75,25 +75,26 @@ function Table(props) {
 
   return (
     <div>
-      <div className="under-header"></div>
+      <div className="under-header">
+        <div class="dropdown" >
+          <button class="dropbtn">Фича</button>
+          <div class="dropdown-content">
+            <a style={isFeature === true ? { display: "none" } : { display: "block" }} onClick={() => { handleFeature(); }} href="#">Create feature</a>
+            <form class="forms" style={isFeature === true ? { display: "flex" } : { display: "none" }}>
+              <input id="input-feature" />
+              <input type="submit" value="sub" onClick={() => setEditor(true)} />
+            </form>
+
+            <a style={isFeature === false ? { display: "none" } : { display: "block" }} onClick={() => { handleDataSet(); }} href="#">Add dataset</a>
+            <form class="forms" style={isFeature === false ? { display: "flex" } : { display: "none" }}>
+              <input id="input-data-set" />
+              <input type="submit" value="sub" />
+            </form>
+          </div>
+        </div>
+      </div>
       <div className="wrapper">
         <div style={isEditor ? { width: "69%", marginRight: "1%" } : { width: "100%" }}>
-          <div class="dropdown" style={isEditor ? { marginLeft: "45%" } : { marginLeft: "75%" }}>
-            <button class="dropbtn">Фича</button>
-            <div class="dropdown-content">
-              <a style={isFeature === true ? { display: "none" } : { display: "block" }} onClick={() => { handleFeature(); }} href="#">Create feature</a>
-              <form class="forms" style={isFeature === true ? { display: "flex" } : { display: "none" }}>
-                <input id="input-feature" />
-                <input type="submit" value="sub" onClick={() => setEditor(true)} />
-              </form>
-
-              <a style={isFeature === false ? { display: "none" } : { display: "block" }} onClick={() => { handleDataSet(); }} href="#">Add dataset</a>
-              <form class="forms" style={isFeature === false ? { display: "flex" } : { display: "none" }}>
-                <input id="input-data-set" />
-                <input type="submit" value="sub" />
-              </form>
-            </div>
-          </div>
           <MaterialTable
             className="table"
             columns={columns}
