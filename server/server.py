@@ -69,19 +69,21 @@ nf_parser = reqparse.RequestParser()
 nf_parser.add_argument('uid', type=str, help="User ID for link")
 nf_parser.add_argument('link_src', type=str, help="Name of source table")
 nf_parser.add_argument('link_dst', type=str, help="Name of destination table")
-nf_parser.add_argument('features', help="List of features from src table")
+nf_parser.add_argument('features', help="List of features from src table", action='append')
 
 
 class NewFeature(Resource):
     def post(self):
         args = nf_parser.parse_args()
-        uid = args["uid"]
-        link_src = uid + '/' + args["link_src"]
-        link_dst = uid + '/' + args["link_dst"]
+        # uid = args["uid"]
+        # link_src = uid + '/' + args["link_src"]
+        # link_dst = uid + '/' + args["link_dst"]
+        link_src = args["link_src"]
+        link_dst = args["link_dst"]
         features = args["features"]
         new_ftrs = self.get_features(link_src, features)
         if e := self.append_features(link_dst, new_ftrs):
-            return {"result": e}
+            return {'result': f'{e}'}
         else:
             return {"result": "Success"}
 
@@ -92,9 +94,7 @@ class NewFeature(Resource):
         f = StringIO(raw_csv)
         df = pd.read_csv(f, sep=",")
 
-        result = []
-        for ftr in features:
-            result.append(df[ftr])
+        result = [df[ftr] for ftr in features]
 
         return result
 
@@ -104,7 +104,13 @@ class NewFeature(Resource):
             f = StringIO(raw_csv)
             df = pd.read_csv(f, sep=",")
             for ftr in features:
-                df.append(ftr)
+                try:
+                    df = df.join(ftr, no_index=True)
+                except Exception:
+                    continue
+
+
+            print(df)
 
             storage.bucket().blob(link).upload_from_string(df.to_csv())
             return None
