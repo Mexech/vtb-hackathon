@@ -7,8 +7,8 @@ import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
 import 'firebase/compat/firestore';
 
-import UploadButton from './Components/UploadButton/UploadButton'
-import Table from './Components/Table/Table'
+import UploadButton from './components/UploadButton/UploadButton'
+import Table from './components/Table/Table'
 import { initializeApp } from "firebase/app";
 
 const firebaseConfig = {
@@ -28,11 +28,6 @@ const firestore = firebase.firestore()
 const storage = firebase.storage()
 
 function App() {
-<<<<<<< HEAD
-  return ( 
-    <div>
-      EMPTY
-=======
   const [user] = useAuthState(auth)
 
   return(
@@ -68,7 +63,6 @@ function FilesList() {
       }
       <UploadButton userId={auth.currentUser.uid}/>
      { auth.currentUser.email}
->>>>>>> fileLoader
     </div>
   );
 }
