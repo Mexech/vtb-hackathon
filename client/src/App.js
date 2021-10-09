@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-
+import Table from './components/Table/table'
 import { initializeApp } from "firebase/app";
 
 const firebaseConfig = {
@@ -15,24 +15,11 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 
 function App() {
-  const [test, setTest] = useState();
-  useEffect(() => {
-    fetch("/test").then(
-      res => res.json()
-    ).then(
-      test => {
-        setTest(test)
-        console.log(test)
-      }
-    )
-  }, []);
   return ( 
     <div>
-      {
-        test?.shit
-      }
+      <Table />
     </div>
-   );
+  );
 }
 
 export default App;
