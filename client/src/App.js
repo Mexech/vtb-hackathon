@@ -7,9 +7,7 @@ import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
 import 'firebase/compat/firestore';
 
-
 import UploadButton from './Components/UploadButton/UploadButton'
-
 
 const firebaseConfig = {
   apiKey: "AIzaSyCpkWpy-HyuAodtrWajEE6_4ByOq_GtpAI",
@@ -36,8 +34,7 @@ function App() {
 
       </header>
       <section>
-        {user ? 
-        <FilesList/> : <SignIn/>}
+        {user ? <FilesList/> : <SignIn/>}
       </section>
     </div>
   );

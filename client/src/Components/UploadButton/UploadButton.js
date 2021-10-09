@@ -3,7 +3,9 @@ import React, { useRef, useState, useEffect } from "react";
 import './UploadButtonStyles.css'
 
 import firebase from 'firebase/compat/app';
+import { updateMetadata } from "firebase/storage";
 import 'firebase/compat/storage';
+import SearchBar from "./SearchBar/SearchBar";
 
 const firebaseConfig = {
     apiKey: "AIzaSyCpkWpy-HyuAodtrWajEE6_4ByOq_GtpAI",
@@ -23,10 +25,12 @@ function UploadButton(props) {
     const storageRef = storage.ref(props.userId)
     const initialList = []
     const [files, setFiles] = useState([])
+    const [fileRef, setFileRef] = useState({});
 
     const listItem = () => {
         storageRef.listAll()
           .then(res => {
+              console.log(res)
               setFiles(res.items.map(f => f.name))
           })
           .catch(err => {
@@ -47,9 +51,16 @@ function UploadButton(props) {
 
         const uploadedFile = event?.target.files[0];
         if (!uploadedFile) return;
-
         try {
-            await storageRef.child(uploadedFile.name).put(uploadedFile);
+            let a = await storageRef.child(uploadedFile.name).put(uploadedFile);
+            console.log(a)
+            fetch(`/api/getmetadata/${a.ref.fullPath}`)
+                .then(res => res.json())
+                .then(async (data) => {
+                    console.log(data)
+                    await storageRef.child(uploadedFile.name).updateMetadata({customMetadata: data})
+                })
+
             alert("Successfully uploaded file!");
         } catch (error) {
             console.log("error", error);
@@ -59,6 +70,7 @@ function UploadButton(props) {
 
     return (  
         <div>
+            <SearchBar/>
             <button className="upload-button" onClick={() => handleClick()}>Upload file</button>
             <input type="file" accept=".csv" hidden ref={ref} onChange={handleUpload}/>
             {
