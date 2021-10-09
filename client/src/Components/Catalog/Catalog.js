@@ -17,7 +17,7 @@ const firebaseConfig = {
 
 const app = firebase.initializeApp(firebaseConfig);
 
-function Table(props) {
+function Catalog(props) {
   const columns = [
     { title: 'Имя файла', field: 'fileName' },
     { title: 'Пользователь', field: 'userName' },
@@ -90,4 +90,4 @@ function Table(props) {
   );
 }
 
-export default Table;
+export default Catalog;
