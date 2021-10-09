@@ -8,8 +8,7 @@ from multiprocessing import Process, Queue
 from io import StringIO
 import pandas as pd
 from pandas import DataFrame
-import importlib
-import runner
+
 
 cred = credentials.Certificate(Path(__file__).parent / "key/vtb-hackathon-firebase-adminsdk-mh10o-0e7b464d7d.json")
 firebase_admin.initialize_app(cred, {
@@ -29,7 +28,7 @@ class Feature(Resource):
 
         d_frame = self.__get_df(uid, filename)
 
-        result = self.__execute_code(code, d_frame)[0]
+        result = self.__execute_code(code, d_frame)
 
         return result.to_json()
 
@@ -44,20 +43,26 @@ class Feature(Resource):
 
     def __execute_code(self, code: [], data_set: DataFrame):
         # Put code from frontend into executable python file
-        with open('server/runner.py', mode='w') as f:
+        with open('runner.py', mode='w') as f:
             f.writelines(code)
-        f.close()
 
-        # runner = importlib.import_module('runner')
+
 
         # Generates Queue object to manage data set and results of inner code
         queue = Queue()
         queue.put(data_set)
 
+        import runner
+
         # Making process for execution of inner code file
-        p = Process(target=runner.run, args=(queue,))
-        p.start()
-        return (queue.get(), p.join())
+        # p = Process(target=runner.run, args=(queue,))
+        # p.start()
+        # return queue.get()
+        # p.join()
+
+        runner.run(queue)
+
+        return queue.get()
 
 
 api.add_resource(Feature, '/api')
