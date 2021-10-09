@@ -4,15 +4,22 @@
   "private": true,
   "proxy": "http://localhost:5000",
   "dependencies": {
+<<<<<<< HEAD
     "@monaco-editor/react": "^4.3.1",
+=======
+    "@material-ui/icons": "^4.11.2",
+>>>>>>> fileLoader
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
+    "axios": "^0.22.0",
     "concurrently": "^6.3.0",
     "firebase": "^9.1.1",
+    "material-table": "^1.69.3",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-firebase-hooks": "^3.0.4",
+    "react-papaparse": "^3.17.2",
     "react-scripts": "4.0.3",
     "web-vitals": "^1.0.1"
   },
