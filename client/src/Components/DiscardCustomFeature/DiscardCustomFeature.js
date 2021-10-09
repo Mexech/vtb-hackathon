@@ -3,21 +3,17 @@ import axios from 'axios'
 
 function SendCodeButton(props) {
 
-    const sendCode = () => {
-        axios.post('/api',{
-            code: props.code,
-            filename: props.filename,
-            uid: props.uid
-        }).then((res) => {
+    const discard = () => {
+        axios.get(`/api/discardcustomfeature/${props.uid}/${props.filename}`).then((res) => {
+            alert('close editor')
             props.setColumns(res.data.columns)
             props.setData(res.data.data)
         })
-
     }
 
     return ( 
         <div>
-            <button onClick={sendCode}>SEND</button>
+            <button onClick={discard}>Discard custom feature</button>
         </div>
     );
 }

@@ -1,3 +1,5 @@
+import pandas as pd
 def run(df):
-	
-	return df['feature']
+	df['Custom']=df['Gain']
+
+	return df['Custom']

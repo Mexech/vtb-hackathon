@@ -10,7 +10,6 @@ import 'firebase/compat/firestore';
 import UploadButton from './components/UploadButton/UploadButton'
 import Table from './components/Table/table'
 import { initializeApp } from "firebase/app";
-import SendCodeButton from './components/SendCodeButton/SendCodeButton';
 
 const firebaseConfig = {
   apiKey: "AIzaSyCpkWpy-HyuAodtrWajEE6_4ByOq_GtpAI",
@@ -30,17 +29,21 @@ const storage = firebase.storage()
 
 function App() {
   const [user] = useAuthState(auth)
+  const [code, setCode] = useState("");
+  const [filename, setFilename] = useState("Valve_Player_Data.csv");
 
+  const handleCallback = (value) => {
+    setFilename(value)
+  }
+  
   return(
     <div>
       <header>
-        <Table/>
+        <Table uid={auth?.currentUser?.uid} filename={filename}/>
       </header>
       <section>
-        <SendCodeButton/>
         {user ? <FilesList/> : <SignIn/>}
       </section>
-      <Table/>
     </div>
   );
 }

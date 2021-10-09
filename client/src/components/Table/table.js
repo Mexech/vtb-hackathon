@@ -18,7 +18,7 @@ const firebaseConfig = {
 
 const app = firebase.initializeApp(firebaseConfig);
 
-function Table() {
+function Table(props) {
   const [columns, setColumns] = useState([]);
   const [data, setData] = useState([]);
   const path = 'McHQwYsaFKbmFPHnPOpE3oebfIt2/Valve_Player_Data.csv';
@@ -78,6 +78,10 @@ function Table() {
             <div style={{ width: "30%" }}>
               <CustomEditor
                 className="editor"
+                uid={props.uid}
+                filename={props.filename}
+                setColumns={setColumns}
+                setData={setData}
               />
             </div>
             :
