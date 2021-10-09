@@ -19,17 +19,15 @@ function CustomEditor() {
     }
     console.log("here is the current model value:", value);
   }
-  return ( 
-    <div>
-      <Editor
-        height="100vh"
-        defaultLanguage="python"
-        defaultValue={beforeUserCode + inbetweenMessage + afterUserCode}
-        theme="vs-dark"
-        onChange={handleEditorChange}
-      />
-    </div>
-   );
+  return (
+    <Editor
+      height="85vh"
+      defaultLanguage="python"
+      defaultValue={beforeUserCode + inbetweenMessage + afterUserCode}
+      theme="vs-dark"
+      onChange={handleEditorChange}
+    />
+  );
 }
 
 export default CustomEditor;

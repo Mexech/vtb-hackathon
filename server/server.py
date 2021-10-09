@@ -79,7 +79,7 @@ def get_dataset(uid, filename):
     raw_csv = storage.bucket().blob(uid+'/'+filename).download_as_text()
     f = StringIO(raw_csv)
     df = pd.read_csv(f, sep=",")
-    data = df.head().to_dict("records")
+    data = df.head(100).to_dict("records")
     return {"columns": [{'title': c, 'field': c} for c in df.head().columns], "data": data}
 
 
