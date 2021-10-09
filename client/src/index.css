@@ -12,3 +12,16 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.MuiToolbar-root{
+  background-color: #1B2B46;
+  color:white;
+}
+
+.MuiTableRow-root:hover{
+  cursor: pointer;
+}
+
+.MuiInput-underline::before{
+  display: none;
+}

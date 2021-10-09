@@ -30,14 +30,18 @@ const storage = firebase.storage()
 function App() {
   const [user] = useAuthState(auth)
 
-  return(
+  return (
     <div>
-      <header>
+
+      {/* <header>
       </header>
       <section>
         {user ? <FilesList/> : <SignIn/>}
-      </section>
-      <Table/>
+      </section> */}
+      <Table
+        path="McHQwYsaFKbmFPHnPOpE3oebfIt2/Valve_Player_Data.csv"
+        user={user ? user : "none"}
+      />
     </div>
   );
 }
@@ -48,22 +52,21 @@ function SignIn() {
     auth.signInWithPopup(provider)
   }
 
-  return (  
-    <button onClick={ signInWithGoogle }>Sign In with Google</button>
+  return (
+    <button onClick={signInWithGoogle}>Sign In with Google</button>
   );
 }
 
 function FilesList() {
-
-  return (  
+  return (
     <div>
       {
-        auth.currentUser && ( 
+        auth.currentUser && (
           <button onClick={() => auth.signOut()}>Sign Out</button>
         )
       }
-      <UploadButton userId={auth.currentUser.uid}/>
-     { auth.currentUser.email}
+      <UploadButton userId={auth.currentUser.uid} />
+      {auth.currentUser.email}
     </div>
   );
 }

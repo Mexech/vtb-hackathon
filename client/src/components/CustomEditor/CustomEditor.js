@@ -21,7 +21,7 @@ function CustomEditor() {
   }
   return (
     <Editor
-      height="85vh"
+      
       defaultLanguage="python"
       defaultValue={beforeUserCode + inbetweenMessage + afterUserCode}
       theme="vs-dark"
