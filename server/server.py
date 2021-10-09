@@ -41,23 +41,21 @@ class Feature(Resource):
         df = pd.read_csv(f, sep=",")
         return df
 
-    def __execute_code(self, code: [], data_set: DataFrame):
+    def __execute_code(self, code: str, data_set: DataFrame):
+
         # Put code from frontend into executable python file
         with open('runner.py', mode='w') as f:
             f.writelines(code)
-
 
 
         # Generates Queue object to manage data set and results of inner code
         queue = Queue()
         queue.put(data_set)
 
-        import runner
-
         # Making process for execution of inner code file
+        import runner
         # p = Process(target=runner.run, args=(queue,))
         # p.start()
-        # return queue.get()
         # p.join()
 
         runner.run(queue)
