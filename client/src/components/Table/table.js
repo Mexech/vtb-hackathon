@@ -5,7 +5,8 @@ import MaterialTable from 'material-table';
 import CustomEditor from '../CustomEditor/CustomEditor';
 import './style.css'
 import axios from 'axios'
-
+import IconButton from '@mui/material/IconButton';
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 
 const firebaseConfig = {
   apiKey: "AIzaSyCpkWpy-HyuAodtrWajEE6_4ByOq_GtpAI",
@@ -80,33 +81,38 @@ function Table(props) {
 
   return (
     <div>
-      <div className="under-header">
-        <div class="dropdown" >
-          <button class="dropbtn">Добавить фичу<img style={{marginLeft:"3px"}} width="30px;" src="./plus.png" /></button>
+      <header>
+        {props.filename ?
+          <IconButton style={{ marginLeft: "15px" }} onClick={props.handleBack} aria-label="delete">
+            <ArrowBackIosIcon />
+          </IconButton>
+          : null}
+        <div class="dropdown" style={customFeature ? { marginLeft: "25%" } : { marginLeft: "65%" }} >
+          <button class="dropbtn">Add a feature<img style={{ marginLeft: "5px", marginTop:"3px"}} width="25px;" src="./plus.png" /></button>
           <div class="dropdown-content">
             <a style={isFeature === true ? { display: "none" } : { display: "block" }} onClick={handleFeature} href="#">Create feature</a>
             <form class="forms" style={isFeature === true ? { display: "flex" } : { display: "none" }}>
-              <input id="input-feature" onKeyUp={handleCustomFeature}/>
+              <input id="input-feature" placeholder="feature name ..." onKeyUp={handleCustomFeature} />
               {/* <input type="submit" value="sub" onClick={setEditor(true)} /> */}
             </form>
 
-            <a style={isFeature === false ? { display: "none" } : { display: "block" }} onClick={handleDataSet} href="#">Add dataset</a>
+            <a style={isFeature === false ? { display: "none" } : { display: "block", borderRadius: "0 0 18px 18px" }} onClick={handleDataSet} href="#">Add dataset</a>
             <form class="forms" style={isFeature === false ? { display: "flex" } : { display: "none" }}>
-              <input id="input-data-set" />
-              <input type="submit" value="sub" style={{width:"40px", borderRadius:"0 0 18px 0"}}/>
+              <input id="input-data-set" placeholder="bla bla..."/>
+              {/* <input type="submit" value="sub" style={{ width: "40px", borderRadius: "0 0 18px 0" }} /> */}
             </form>
           </div>
         </div>
-      </div>
+      </header>
       <div className="wrapper">
-        <div style={isEditor ? { width: "69%", marginRight: "1%" } : { width: "100%" }}>
+        <div style={customFeature ? { width: "60%", marginRight: "0%" } : { width: "100%" }}>
           <MaterialTable
             className="table"
             columns={columns}
             data={data}
             title={props.filename}
             options={{
-              maxBodyHeight: "75vh",
+              maxBodyHeight: "80vh",
               selection: false,
               rowStyle: { ...styles.rowStyle },
               headerStyle: { ...styles.headerStyle },
@@ -118,7 +124,7 @@ function Table(props) {
         </div>
         {
           customFeature ?
-            <div style={{ width: "30%" }}>
+            <div style={{ width: "40%" }}>
               <CustomEditor
                 className="editor"
                 uid={props.uid}

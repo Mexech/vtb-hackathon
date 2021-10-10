@@ -26,3 +26,7 @@ code {
 .MuiInput-underline::before{
   display: none;
 }
+
+.MuiPaper-root::-webkit-scrollbar-track {
+  background: rgb(168, 114, 13);        /* цвет дорожки */
+}

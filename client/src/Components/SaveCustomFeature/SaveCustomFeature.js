@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios'
+import Button from '@mui/material/Button';
 
 function SendCodeButton(props) {
 
@@ -11,7 +12,7 @@ function SendCodeButton(props) {
 
     return ( 
         <div>
-            <button onClick={save}>Save custom feature</button>
+            <Button variant="outlined" onClick={save}>Save custom feature</Button>
         </div>
     );
 }
