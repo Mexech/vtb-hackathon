@@ -5,6 +5,9 @@ import { useCollectionData } from 'react-firebase-hooks/firestore'
 
 import "./App.css"
 
+import ExitToApp from "@material-ui/icons/ExitToApp"
+import ArrowBack from "@material-ui/icons/ArrowBack"
+
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
 import 'firebase/compat/firestore';
@@ -41,8 +44,22 @@ function App() {
   
   return(
     <div>
-      <header>
-        {filename ? <button onClick={back}>BACK</button> : null}
+      <header className = "header">
+        {filename ? 
+          <div style={{flexGrow: "1"}}>
+            <button className = "back-button" onClick={back}><ArrowBack /></button>
+          </div>: 
+                    
+            
+          <div style={{flexGrow: "1"}}>
+          </div>
+        }
+        <div style={{flexGrow: "1"}}>
+          <button className = "exit-button" onClick={() => {
+                auth.signOut()
+                }}><ExitToApp />
+          </button>
+        </div>
       </header>
       <section>
         {!user
@@ -90,16 +107,7 @@ function FilesList(props) {
 
   return (  
     <div className = "main">
-      <div style = {{backgroundColor: "#326DC6"}}>
-        {
-          auth.currentUser && ( 
-          <button onClick={() => {
-            auth.signOut()
-          }}>Sign Out</button>
-          )
-        }
-        <UploadButton userId={auth.currentUser.uid} fileList={files} setFileList={listFiles} storageRef={storageRef}/>
-      </div>
+      <UploadButton setFileList = {listFiles} storageRef = {storageRef}/>
       <Catalog setFilename={props.setFilename} fileList={files} setFileList={listFiles} usr={auth.currentUser} storageRef={storageRef}/>
     </div>
   );
