@@ -21,10 +21,10 @@ function Catalog(props) {
   const columns = [
     { title: 'Имя файла', field: 'filename' },
     { title: 'Пользователь', field: 'username' },
-    { title: 'Размер', field: 'size'}
+    { title: 'Размер', field: 'size' }
   ]
 
-  useEffect(() =>{props.setFileList()}, [])
+  useEffect(() => { props.setFileList() }, [])
 
   const handleDelete = async (rowData) => {
     await props.storageRef.child(rowData.filename).delete().then(() => {
@@ -40,7 +40,7 @@ function Catalog(props) {
 
   const actions = [{
     icon: () => (
-      <Delete style = {{color: "white"}}/>
+      <Delete style={{ color: "white" }} />
     ),
     tooltip: "deleteFile",
     title: "aaa",
@@ -73,28 +73,30 @@ function Catalog(props) {
     })
   }
 
-  const localization= {
+  const localization = {
     header: {
       actions: ""
     }
   }
 
   return (
-    <div style = {{marginLeft: "2%", marginRight: "2%"}}>
+    <div style={{ marginLeft: "2%", marginRight: "2%" }}>
       <MaterialTable
-        style = {{backgroundColor: "#1B2B46"}}
-          columns={columns}
-          actions = {actions}
-          options={options}
-          localization = {localization}
-          onRowClick={handleRowClick}
-          style = {{fontSize: "14px"}}
+        style={{ backgroundColor: "#1B2B46" }}
+        columns={columns}
+        actions={actions}
+        options={options}
+        localization={localization}
+        onRowClick={handleRowClick}
+        style={{ fontSize: "14px" }}
 
-          data = {props.fileList.map((fName) => ({"filename": fName,
-                                                  "username": props.usr.email,
-                                                  "size": "---"}))}
-        />
-      </div>
+        data={props.fileList.map((fName) => ({
+          "filename": fName,
+          "username": props.usr.email,
+          "size": "---"
+        }))}
+      />
+    </div>
   );
 }
 

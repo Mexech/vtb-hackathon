@@ -14,7 +14,7 @@ function SendCodeButton(props) {
 
     return ( 
         <div>
-            <Button variant="outlined" onClick={discard}>Discard custom feature</Button>
+            <Button style={{ background: "#aaa" }} variant="contained" onClick={discard}>Discard custom feature</Button>
         </div>
     );
 }

@@ -5,6 +5,7 @@ import Button from '@mui/material/Button';
 function SendCodeButton(props) {
 
     const sendCode = () => {
+        console.log(props.code)
         axios.post('/api/code',{
             code: props.code,
             filename: props.filename,
@@ -22,7 +23,7 @@ function SendCodeButton(props) {
 
     return (
         <div>
-            <Button variant="outlined" onClick={sendCode}>Send</Button>
+            <Button style={{ background: "#aaa" }} variant="contained" onClick={sendCode}>Send</Button>
         </div>
     );
 }

@@ -6,7 +6,7 @@ import CustomEditor from '../CustomEditor/CustomEditor';
 import './style.css'
 import axios from 'axios'
 import IconButton from '@mui/material/IconButton';
-import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 
 const firebaseConfig = {
   apiKey: "AIzaSyCpkWpy-HyuAodtrWajEE6_4ByOq_GtpAI",
@@ -39,7 +39,7 @@ function Table(props) {
       fontFamily: "Roboto",
       fontStyle: "normal",
       fontWeight: "normal",
-      fontSize: "18px",
+      fontSize: "14px",
     },
     headerStyle: {
       backgroundColor: "#1B2B46",
@@ -91,6 +91,7 @@ function Table(props) {
       setCustomFeature(ev.target.value)
       ev.target.value = null
       setFeature(false)
+      console.log(props.filename)
     }
   }
 
@@ -98,8 +99,8 @@ function Table(props) {
     <div>
       <header>
         {props.filename ?
-          <IconButton style={{ marginLeft: "15px" }} onClick={props.handleBack} aria-label="delete">
-            <ArrowBackIosIcon />
+          <IconButton style={{ marginLeft: "0px" }} onClick={props.handleBack} aria-label="delete">
+            <KeyboardBackspaceIcon fontSize={"50"} />
           </IconButton>
           : null}
         {customFeature ? null : 

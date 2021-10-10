@@ -7,6 +7,8 @@ import "./App.css"
 
 import ExitToApp from "@material-ui/icons/ExitToApp"
 import ArrowBack from "@material-ui/icons/ArrowBack"
+import IconButton from '@mui/material/IconButton';
+import Button from '@mui/material/Button';
 
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
@@ -42,15 +44,20 @@ function App() {
   const back = () => {
     setFilename("")
   }
-  
-  return(
+
+  return (
     <div>
       <section>
         {!user
-          ? <SignIn/>
+          ? <header className="header">
+            <div style={{ fontFamily: "Righteous", marginLeft: "3.5%", color: "#fff", fontSize: "20px" }}>features</div>
+            <div style={{ marginLeft: "77%" }}>
+              <SignIn />
+            </div>
+          </header>
           : [
             filename
-              ? <Table uid={auth.currentUser.uid} filename={filename} handleBack={back}/>
+              ? <Table uid={auth.currentUser.uid} filename={filename} handleBack={back} handleSignOut={() => { auth.signOut() }} />
               : <FilesList filename={filename} handleBack={back} setFilename={setFilename} />
           ]
         }
@@ -66,7 +73,7 @@ function SignIn() {
   }
 
   return (
-    <button onClick={signInWithGoogle}>Sign In with Google</button>
+    <Button style={{ fontSize:"0.8rem", padding:"8px 13px", background:"#fff", color:"#000"}} variant="contained" onClick={signInWithGoogle}>Sign In with Google</Button>
   );
 }
 
@@ -97,26 +104,24 @@ function FilesList(props) {
       })
   }
 
-  useEffect(() => {listFiles()}, [])
+  useEffect(() => { listFiles() }, [])
 
-  return (  
-    <div className = "main">
+  return (
+    <div className="main">
       <header className="header">
-        {props.filename
-          ?<div style={{ flexGrow: "1" }}>
-            <button className="back-button" onClick={props.back}><ArrowBack /></button>
-          </div>
-          :<div style={{ flexGrow: "1" }}/>
-        }
-        <div style={{ flexGrow: "1" }}>
-          <button className="exit-button" onClick={() => {
+        <div style={{ fontFamily: "Righteous", marginLeft: "3.5%", color: "#fff", fontSize: "20px" }}>features</div>
+        <div style={{ marginLeft: "85%" }}>
+          <IconButton className="exit-button" onClick={() => {
             auth.signOut()
           }}><ExitToApp />
-          </button>
+          </IconButton>
         </div>
       </header>
-      <UploadButton setFileList={listFiles} storageRef={storageRef}/>
-      <Catalog setFilename={props.setFilename} fileList={files} setFileList={listFiles} usr={auth.currentUser} storageRef={storageRef}/>
+      <div className="under_header">
+        <span className="myFiles">My files</span>
+        <div><UploadButton setFileList={listFiles} storageRef={storageRef} /></div>
+      </div>
+      <Catalog setFilename={props.setFilename} fileList={files} setFileList={listFiles} usr={auth.currentUser} storageRef={storageRef} />
     </div>
   );
 }

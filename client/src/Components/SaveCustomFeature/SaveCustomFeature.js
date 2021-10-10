@@ -12,7 +12,7 @@ function SendCodeButton(props) {
 
     return ( 
         <div>
-            <Button variant="outlined" onClick={save}>Save custom feature</Button>
+            <Button style={{ background: "#aaa" }} variant="contained" onClick={save}>Save custom feature</Button>
         </div>
     );
 }
