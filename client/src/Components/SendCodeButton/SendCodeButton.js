@@ -4,7 +4,7 @@ import axios from 'axios'
 function SendCodeButton(props) {
 
     const sendCode = () => {
-        axios.post('/api',{
+        axios.post('/api/code',{
             code: props.code,
             filename: props.filename,
             uid: props.uid

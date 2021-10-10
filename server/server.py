@@ -11,12 +11,8 @@ import os, json
 # from multiprocessing import Process, Queue
 from queue import Queue
 from io import StringIO
-<<<<<<< HEAD
 import importlib
 import runner
-=======
-import pandas as pd
->>>>>>> origin/new-backend
 
 cred = credentials.Certificate(Path(__file__).parent / "key/vtb-hackathon-firebase-adminsdk-mh10o-0e7b464d7d.json")
 firebase_admin.initialize_app(cred, {
@@ -34,17 +30,11 @@ parser.add_argument('filename')
 
 
 class Feature(Resource):
-<<<<<<< HEAD
     def post(self):
         global current_df
         data = parser.parse_args()
         code = data["code"]
         filename = data["filename"]
-=======
-    def get(self):
-        data = request.json
-        code = data["data"]["code"]
->>>>>>> origin/new-backend
         uid = data["uid"]
         df = self.__get_df(uid, filename)
         result = self.__execute_code(code, df)
@@ -62,34 +52,14 @@ class Feature(Resource):
         df = pd.read_csv(f, sep=",")
         return df
 
-<<<<<<< HEAD
     def __execute_code(self, code: str, df: pd.DataFrame):
 
-=======
-    def __execute_code(self, code: str, data_set: pd.DataFrame):
->>>>>>> origin/new-backend
         # Put code from frontend into executable python file
         with open('runner.py', mode='w') as f:
             f.writelines(code)
         importlib.reload(runner)
 
-<<<<<<< HEAD
         return runner.run(df)
-=======
-        # Generates Queue object to manage data set and results of inner code
-        queue = Queue()
-        queue.put(data_set)
-
-        # Making process for execution of inner code file
-        import runner
-        # p = Process(target=runner.run, args=(queue,))
-        # p.start()
-        # p.join()
-
-        runner.run(queue)
-
-        return queue.get()
->>>>>>> origin/new-backend
 
 
 # NewFeature creating
@@ -111,7 +81,8 @@ class NewFeature(Resource):
         link_dst = args["link_dst"]
         features = args["features"]
         new_ftrs = self.get_features(link_src, features)
-        if e := self.append_features(link_dst, new_ftrs):
+        e == self.append_features(link_dst, new_ftrs)
+        if e:
             return {'result': f'{e}'}
         else:
             return {"result": "Success"}
