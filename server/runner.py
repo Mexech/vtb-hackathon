@@ -1,4 +1,5 @@
 import pandas as pd
 def run(df):
-	df['asd'] = df['URL']
-	return df['asd']
+	# Здесь можете ввести нужные преобразования
+	df['adsf'] = df['URL']
+	return df['adsf']

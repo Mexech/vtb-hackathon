@@ -7,6 +7,9 @@ import { updateMetadata } from "firebase/storage";
 import 'firebase/compat/storage';
 import SearchBar from "./SearchBar/SearchBar";
 
+import CloudUpload from "@material-ui/icons/CloudUpload";
+
+
 const firebaseConfig = {
     apiKey: "AIzaSyCpkWpy-HyuAodtrWajEE6_4ByOq_GtpAI",
     authDomain: "vtb-hackathon.firebaseapp.com",
@@ -52,20 +55,14 @@ function UploadButton(props) {
     };
 
     return (  
-        <div>
+        <div style = {{marginTop: "1%", marginBottom: "1%", marginLeft: "2%"}}>
             {/* <SearchBar/> */}
-            <button className="upload-button" onClick={() => handleClick()}>Upload file</button>
+            <button className="upload-button" onClick={() => handleClick()}>
+                Upload file
+            </button>
             <input type="file" accept=".csv" hidden ref={ref} onChange={handleUpload}/>
         </div>
     );
-}
-
-function Item(props) {
-    return ( 
-        <div>
-            {props.name}
-        </div>
-     );
 }
 
 export default UploadButton;

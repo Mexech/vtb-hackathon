@@ -5,17 +5,17 @@ import Button from '@mui/material/Button';
 function SendCodeButton(props) {
 
     const sendCode = () => {
-<<<<<<< HEAD
         axios.post('/api/code',{
-=======
-        axios.post('/api', {
->>>>>>> origin/overnight
             code: props.code,
             filename: props.filename,
             uid: props.uid
         }).then((res) => {
-            props.setColumns(res.data.columns)
-            props.setData(res.data.data)
+            if (res.data?.error) {
+                alert(res.data.error)
+            } else {
+                props.setColumns(res.data.columns)
+                props.setData(res.data.data)
+            }
         })
 
     }

@@ -37,7 +37,10 @@ class Feature(Resource):
         filename = data["filename"]
         uid = data["uid"]
         df = self.__get_df(uid, filename)
-        result = self.__execute_code(code, df)
+        try:
+            result = self.__execute_code(code, df)
+        except Exception as e:
+            return {"error": str(e)}
         df.append(result)
         current_df = df
         data = df.head(100).to_dict("records")
@@ -81,7 +84,7 @@ class NewFeature(Resource):
         link_dst = args["link_dst"]
         features = args["features"]
         new_ftrs = self.get_features(link_src, features)
-        e == self.append_features(link_dst, new_ftrs)
+        e = self.append_features(link_dst, new_ftrs)
         if e:
             return {'result': f'{e}'}
         else:
@@ -161,4 +164,4 @@ def discard_custom_feature(uid, filename):
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=True, use_reloader=False)

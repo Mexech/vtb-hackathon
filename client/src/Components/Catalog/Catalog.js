@@ -21,7 +21,6 @@ function Catalog(props) {
   const columns = [
     { title: 'Имя файла', field: 'filename' },
     { title: 'Пользователь', field: 'username' },
-    { title: 'Последнее обновление', field: 'lastUpdate'},
     { title: 'Размер', field: 'size'}
   ]
 
@@ -60,13 +59,13 @@ function Catalog(props) {
     paging: false,
     sorting: false,
     headerStyle: {
-      fontSize: "10px",
+      fontSize: "14px",
       position: "sticky",
       backgroundColor: "#1B2B46",
       color: "white",
       top: "0"
     },
-    maxBodyHeight: "300px",
+    // maxBodyHeight: "300px",
     rowStyle: rowData => ({
       backgroundColor: (selectedRow === rowData.tableData.id) ? 'gray' : '#1B2B46',
       color: "white",
@@ -81,7 +80,7 @@ function Catalog(props) {
   }
 
   return (
-    <div style = {{margin: "2%"}}>
+    <div style = {{marginLeft: "2%", marginRight: "2%"}}>
       <MaterialTable
         style = {{backgroundColor: "#1B2B46"}}
           columns={columns}
@@ -89,11 +88,10 @@ function Catalog(props) {
           options={options}
           localization = {localization}
           onRowClick={handleRowClick}
-          style = {{fontSize: "10px"}}
+          style = {{fontSize: "14px"}}
 
           data = {props.fileList.map((fName) => ({"filename": fName,
                                                   "username": props.usr.email,
-                                                  "lastUpdate": "---",
                                                   "size": "---"}))}
         />
       </div>

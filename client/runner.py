@@ -1,4 +1,5 @@
 import pandas as pd
 def run(df):
-	
-	return df['dsf']
+	# Здесь можете ввести нужные преобразования
+	asd
+	return df['dfsg']
