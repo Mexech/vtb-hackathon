@@ -11,6 +11,7 @@ import 'firebase/compat/firestore';
 
 import UploadButton from './components/UploadButton/UploadButton'
 import Table from './components/Table/table'
+
 import Catalog from './components/Catalog/Catalog'
 import { initializeApp } from "firebase/app";
 
@@ -41,15 +42,16 @@ function App() {
   
   return(
     <div>
-      <header>
+      
+      {/* <header>
         {filename ? <button onClick={back}>BACK</button> : null}
-      </header>
+      </header> */}
       <section>
         {!user
           ? <SignIn/>
           : [
             filename
-              ? <Table uid={auth.currentUser.uid} filename={filename}/>
+              ? <Table uid={auth.currentUser.uid} filename={filename} handleBack={back}/>
               : <FilesList setFilename={setFilename} />
           ]
         }

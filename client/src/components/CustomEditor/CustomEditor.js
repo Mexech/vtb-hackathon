@@ -12,7 +12,8 @@ function CustomEditor(props) {
   // const inbetweenMessage = "df['Custom']=df['Gain']\n"
   const afterUserCode = `\n\treturn df['${props.customFeature}']`
   const [code, setCode] = useState(beforeUserCode + inbetweenMessage + afterUserCode);
-  const [createdNewFeature, setCreatedNewFeature] = useState(false);
+
+  const [createdNewFeature, setCreatedNewFeature] = useState(true); ///////////////////????????????
   function handleEditorChange(value, event) {
     if (!(value.startsWith(beforeUserCode) && value.endsWith(afterUserCode))) {
       monaco.editor.getModels()[0].undo()
@@ -20,8 +21,18 @@ function CustomEditor(props) {
       setCode(value)
     }
   }
+
+  const styles = {
+    navbar: {
+      display: "flex", 
+      flexDirection: "row",
+      justifyContent: "space-between",
+      margin: "10px"
+    }
+  }
+
   return (
-    <div style={{ display:"flex", flexDirection:"column"}}>
+    <div style={{ display: "flex", flexDirection: "column" }}>
       <div>
         <Editor
           height="80vh"
@@ -31,14 +42,14 @@ function CustomEditor(props) {
           onChange={handleEditorChange}
         />
       </div>
-      <div style={{ display: "flex", flexDirection: "row" }}>
-        {code != beforeUserCode + inbetweenMessage + afterUserCode 
-        ? <SendCodeButton createdNewFeature={setCreatedNewFeature} setColumns={props.setColumns} setData={props.setData} filename={props.filename} uid={props.uid} code={code}/>
-        : null}
-        {}
+      <nav style={{...styles.navbar}}>
+        {code != beforeUserCode + inbetweenMessage + afterUserCode
+          ? <SendCodeButton createdNewFeature={setCreatedNewFeature} setColumns={props.setColumns} setData={props.setData} filename={props.filename} uid={props.uid} code={code} />
+          : null}
+        { }
         {createdNewFeature ? <SaveCustomFeature setCustomFeature={props.setCustomFeature} filename={props.filename} uid={props.uid} /> : null}
         {createdNewFeature ? <DiscardCustomFeature setCustomFeature={props.setCustomFeature} setColumns={props.setColumns} setData={props.setData} filename={props.filename} uid={props.uid} /> : null}
-      </div>
+      </nav>
     </div>
   );
 }
