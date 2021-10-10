@@ -61,6 +61,19 @@ function Table(props) {
       })
   }, []);
 
+  useEffect(() => {
+    setColumns(columns => [...columns, {field: customFeature, title: customFeature}])
+    const observer = new MutationObserver(()=>{
+      let nodes = document.querySelectorAll('.MuiTableRow-root.MuiTableRow-head > th')
+      nodes[nodes.length - 1]?.scrollIntoView()
+    })
+    observer.observe(document.querySelector('.MuiTableRow-root.MuiTableRow-head'), { attributes: true, childList: true, subtree: true })
+  }, [customFeature]);
+
+  const scrollToLast = () => {
+    console.log('asd')
+  }
+
   const [open, setOpen] = React.useState(false);
 
   function handleFeature(ev) {
@@ -76,6 +89,8 @@ function Table(props) {
   const handleCustomFeature = (ev) => {
     if (ev.key === "Enter") {
       setCustomFeature(ev.target.value)
+      ev.target.value = null
+      setFeature(false)
     }
   }
 
@@ -87,22 +102,17 @@ function Table(props) {
             <ArrowBackIosIcon />
           </IconButton>
           : null}
-        <div class="dropdown" style={customFeature ? { marginLeft: "25%" } : { marginLeft: "65%" }} >
-          <button class="dropbtn">Add a feature<img style={{ marginLeft: "5px", marginTop:"3px"}} width="25px;" src="./plus.png" /></button>
-          <div class="dropdown-content">
-            <a style={isFeature === true ? { display: "none" } : { display: "block" }} onClick={handleFeature} href="#">Create feature</a>
-            <form class="forms" style={isFeature === true ? { display: "flex" } : { display: "none" }}>
-              <input id="input-feature" placeholder="feature name ..." onKeyUp={handleCustomFeature} />
-              {/* <input type="submit" value="sub" onClick={setEditor(true)} /> */}
-            </form>
-
-            <a style={isFeature === false ? { display: "none" } : { display: "block", borderRadius: "0 0 18px 18px" }} onClick={handleDataSet} href="#">Add dataset</a>
-            <form class="forms" style={isFeature === false ? { display: "flex" } : { display: "none" }}>
-              <input id="input-data-set" placeholder="bla bla..."/>
-              {/* <input type="submit" value="sub" style={{ width: "40px", borderRadius: "0 0 18px 0" }} /> */}
-            </form>
+        {customFeature ? null : 
+          <div class="dropdown" style={{ marginLeft: "72%" }} >
+            <button class="dropbtn">Add a feature<img style={{ marginLeft: "5px", marginTop:"3px"}} width="25px;" src="./plus.png" /></button>
+            <div class="dropdown-content">
+              <a style={isFeature === true ? { display: "none" } : { display: "block" }} onClick={handleFeature} href="#">Create feature</a>
+              <form class="forms" style={isFeature === true ? { display: "flex" } : { display: "none" }}>
+                <input id="input-feature" placeholder="feature name ..." onKeyUp={handleCustomFeature} />
+              </form>
+            </div>
           </div>
-        </div>
+        }
       </header>
       <div className="wrapper">
         <div style={customFeature ? { width: "60%", marginRight: "0%" } : { width: "100%" }}>
@@ -118,8 +128,8 @@ function Table(props) {
               headerStyle: { ...styles.headerStyle },
               searchFieldStyle: { ...styles.searchFieldStyle },
               paging: false
-
             }}
+            onTreeExpandChange={scrollToLast}
           />
         </div>
         {

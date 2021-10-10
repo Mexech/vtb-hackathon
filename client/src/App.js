@@ -75,12 +75,22 @@ function FilesList(props) {
   const storageRef = storage.ref(auth.currentUser.uid)
 
   const [files, setFiles] = useState([])
+  // const [filesMeta, setFilesMeta] = useState([])
 
   const listFiles = () => {
     storageRef.listAll()
-      .then(res => {
-          console.log(res)
-          setFiles(res.items.map(f => f.name))
+      .then(async (res) => {
+        let filesData = []
+        res.items.forEach(async (fileRef) => {
+          let data = await fileRef.getMetadata()
+          filesData.push({
+            rows : data.customMetadata?.rows,
+            size : data.size,
+            filename : fileRef.name
+          })
+        })
+        // setFilesMeta(filesData)
+        setFiles(res.items.map(f => f.name))
       })
       .catch(err => {
         alert(err.message);
@@ -105,7 +115,7 @@ function FilesList(props) {
           </button>
         </div>
       </header>
-      <UploadButton setFileList = {listFiles} storageRef = {storageRef}/>
+      <UploadButton setFileList={listFiles} storageRef={storageRef}/>
       <Catalog setFilename={props.setFilename} fileList={files} setFileList={listFiles} usr={auth.currentUser} storageRef={storageRef}/>
     </div>
   );
