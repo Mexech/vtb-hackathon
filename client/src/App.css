@@ -1,3 +1,7 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Righteous&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Jura:wght@600;700&display=swap');
+
 html, body{
     margin: 0;
     padding: 0;
@@ -7,9 +11,9 @@ html, body{
 .main{
     width: 100vw;
     height: 100vh;
-    display: grid;
-    grid-template-rows: 1fr 20fr;
-    background-color:  #172030;
+    /* display: grid;
+    grid-template-rows: 1fr 20fr; */
+    background-color: #172030;
 }
 
 .header{
@@ -19,8 +23,28 @@ html, body{
     align-items: center;
 }
 
+.under_header{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    height: 10vh;
+    line-height: 10vh;
+    margin: 2% 2% 0 2%;
+    padding: 0 3%;
+    background-color: #1B2B46;
+    border-radius: 20px 20px 0 0;
+}
+
+
+.myFiles{
+    color:white;
+    font-size: 30px;
+    font-family: Roboto;
+    font-weight: bold;
+}
+
 .exit-button{
-    margin-left: 90%;
+    
 }
 
 .back-button{

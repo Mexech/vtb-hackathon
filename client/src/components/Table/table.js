@@ -6,7 +6,7 @@ import CustomEditor from '../CustomEditor/CustomEditor';
 import './style.css'
 import axios from 'axios'
 import IconButton from '@mui/material/IconButton';
-import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 
 const firebaseConfig = {
   apiKey: "AIzaSyCpkWpy-HyuAodtrWajEE6_4ByOq_GtpAI",
@@ -39,7 +39,7 @@ function Table(props) {
       fontFamily: "Roboto",
       fontStyle: "normal",
       fontWeight: "normal",
-      fontSize: "18px",
+      fontSize: "14px",
     },
     headerStyle: {
       backgroundColor: "#1B2B46",
@@ -83,12 +83,13 @@ function Table(props) {
     <div>
       <header>
         {props.filename ?
-          <IconButton style={{ marginLeft: "15px" }} onClick={props.handleBack} aria-label="delete">
-            <ArrowBackIosIcon />
+          <IconButton style={{ marginLeft: "0px" }} onClick={props.handleBack} aria-label="delete">
+            <KeyboardBackspaceIcon fontSize={"50"} />
           </IconButton>
           : null}
-        <div class="dropdown" style={customFeature ? { marginLeft: "25%" } : { marginLeft: "65%" }} >
-          <button class="dropbtn">Add a feature<img style={{ marginLeft: "5px", marginTop:"3px"}} width="25px;" src="./plus.png" /></button>
+        <span style={{ fontFamily: "Righteous", marginLeft: "1%", color: "#fff", fontSize: "20px" }}>features</span>
+        <div class="dropdown" style={customFeature ? { marginLeft: "25%" } : { marginLeft: "60%" }} >
+          <button class="dropbtn">Add a feature<img style={{ marginLeft: "5px", marginTop: "3px" }} width="25px;" src="./plus.png" /></button>
           <div class="dropdown-content">
             <a style={isFeature === true ? { display: "none" } : { display: "block" }} onClick={handleFeature} href="#">Create feature</a>
             <form class="forms" style={isFeature === true ? { display: "flex" } : { display: "none" }}>
@@ -98,7 +99,7 @@ function Table(props) {
 
             <a style={isFeature === false ? { display: "none" } : { display: "block", borderRadius: "0 0 18px 18px" }} onClick={handleDataSet} href="#">Add dataset</a>
             <form class="forms" style={isFeature === false ? { display: "flex" } : { display: "none" }}>
-              <input id="input-data-set" placeholder="bla bla..."/>
+              <input id="input-data-set" placeholder="bla bla..." />
               {/* <input type="submit" value="sub" style={{ width: "40px", borderRadius: "0 0 18px 0" }} /> */}
             </form>
           </div>
